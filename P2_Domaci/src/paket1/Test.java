@@ -36,7 +36,7 @@ public class Test {
 		a1.getOprema().add("alarm");
 		a1.getOprema().add("ac");
 		a1.getOprema().add("eps");
-        a1.setModel(m1);		
+                a1.setModel(m1);		
 
 		Automobil a2 = new Automobil();
 		a2.setNaziv("Bmw");
