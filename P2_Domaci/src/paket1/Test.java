@@ -133,13 +133,9 @@ public class Test {
 
 	// Funkcija broj 9
 	private static void izlistajModele() {
-		for (Automobil auto : oglas) {
-			
-				System.out.println(
-						auto.getId() + " " + auto.getNaziv() + " " + auto.getGodiste() + " " + auto.getCena() + " e - " + auto.getModel().getNazivModela());
-			
+		for (Model m : modeli) {
+				System.out.println(m.getNazivModela());
 		}
-		
 	}
 
 	// Ako je izbor broj 1
@@ -665,7 +661,6 @@ public class Test {
 			System.out.println("\nMorate uneti broj.");
 			choice = -1;
 		}
-
 		return choice;
 	}
 
