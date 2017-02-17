@@ -1,8 +1,13 @@
 package paket2;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Dom51 {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 
 		String[][][] raspored = new String[3][][];
 		raspored[0] = new String[8][8]; // ponedeljak 8 predavanja
@@ -13,16 +18,36 @@ public class Dom51 {
 		String[] predavaciPon = new String[raspored[0].length];
 		int[] odSatPon = new int[raspored[0].length];
 		int[] doSatPon = new int[raspored[0].length];
+		String[] vremePocetakSat = new String[raspored[0].length];
+		String[] vremePocetakMin = new String[raspored[0].length];
+		String[] vremeKrajSat = new String[raspored[0].length];
+		String[] vremeKrajMin = new String[raspored[0].length];
+		String[] vremeOdPon = new String[raspored[0].length];
+		String[] vremeDoPon = new String[raspored[0].length];
+
+		// String time = "15:30";
+		// DateFormat sdf = new SimpleDateFormat("hh:mm");
+		// Date date = sdf.parse(time);
+		// System.out.println("Time: " + sdf.format(date));
 
 		String[] kabinetiUto = new String[raspored[1].length];
 		String[] predavaciUto = new String[raspored[1].length];
 		int[] odSatUto = new int[raspored[1].length];
 		int[] doSatUto = new int[raspored[1].length];
+		String[] vremePocetakSatUto = new String[raspored[1].length];
+		String[] vremePocetakMinUto = new String[raspored[1].length];
+		String[] vremeKrajSatUto = new String[raspored[1].length];
+		String[] vremeKrajMinUto = new String[raspored[1].length];
+		String[] vremeOdUto = new String[raspored[1].length];
+		String[] vremeDoUto = new String[raspored[1].length];
 
 		String[] kabinetiSre = new String[raspored[2].length];
 		String[] predavaciSre = new String[raspored[2].length];
 		int[] odSatSre = new int[raspored[2].length];
 		int[] doSatSre = new int[raspored[2].length];
+
+		int pauzaMin = 15;
+		int loznicaSat = 3;
 
 		// PONEDELJAK
 		// Ponedeljak predavanje 1.
@@ -118,8 +143,8 @@ public class Dom51 {
 		raspored[1][0][1] = "Zeljko Vukovic";
 		raspored[1][0][2] = "10";
 		raspored[1][0][3] = "30";
-		raspored[1][0][4] = "12";
-		raspored[1][0][5] = "00";
+		raspored[1][0][4] = "11";
+		raspored[1][0][5] = "59";
 		raspored[1][0][6] = "Internet Mreze";
 		raspored[1][0][7] = "Novi Sad";
 
@@ -247,7 +272,17 @@ public class Dom51 {
 
 			odSatPon[i] = Integer.parseInt(raspored[0][i][2]);
 			doSatPon[i] = Integer.parseInt(raspored[0][i][4]);
-			// System.out.println(odSatPon[i]);
+
+			vremePocetakSat[i] = raspored[0][i][2];
+			vremeKrajSat[i] = raspored[0][i][4];
+			vremePocetakMin[i] = raspored[0][i][3];
+			vremeKrajMin[i] = raspored[0][i][5];
+
+			vremeOdPon[i] = vremePocetakSat[i] + ":" + vremePocetakMin[i];
+			vremeDoPon[i] = vremeKrajSat[i] + ":" + vremeKrajMin[i];
+
+			// System.out.println(vremeOdPon[i] + " od");
+			// System.out.println(vremeDoPon[i] + " do");
 		}
 
 		// Predavaci ponedeljak
@@ -273,7 +308,15 @@ public class Dom51 {
 
 			odSatUto[i] = Integer.parseInt(raspored[1][i][2]);
 			doSatUto[i] = Integer.parseInt(raspored[1][i][4]);
-			// System.out.println(odSatPon[i]);
+			
+			vremePocetakSatUto[i] = raspored[1][i][2];
+			vremeKrajSatUto[i] = raspored[1][i][4];
+			vremePocetakMinUto[i] = raspored[1][i][3];
+			vremeKrajMinUto[i] = raspored[1][i][5];
+
+			vremeOdUto[i] = vremePocetakSatUto[i] + ":" + vremePocetakMinUto[i];
+			vremeDoUto[i] = vremeKrajSatUto[i] + ":" + vremeKrajMinUto[i];
+			// System.out.println("od" + vremeOdUto[i] + " do " + vremeDoUto[i]);
 		}
 
 		// Poceci predavanja sreda
@@ -314,9 +357,19 @@ public class Dom51 {
 		// Podudaranje vremenskih intervala i kabineta ponedeljak
 		for (int i = 0; i < raspored[0].length; i++) {
 			for (int j = i + 1; j < raspored[0].length; j++) {
+				DateFormat sdf = new SimpleDateFormat("hh:mm");
+				Date start1 = sdf.parse(vremeOdPon[i]);
+				Date end1 = sdf.parse(vremeDoPon[i]);
+				end1.setMinutes(end1.getMinutes() + pauzaMin);
+				Date start2 = sdf.parse(vremeOdPon[j]);
+				Date end2 = sdf.parse(vremeDoPon[j]);
+				end2.setMinutes(end2.getMinutes() + pauzaMin);
+				// System.out.println("zavrseno prvo " + end1 + " Zavrseno drugo
+				// " + end2);
+
 				if (kabinetiPon[i] == kabinetiPon[j]) {
-					if (odSatPon[i] <= doSatPon[j] && odSatPon[j] <= doSatPon[i])
-						System.out.println("Presecanje kabineta " + kabinetiPon[i] + " Ponedeljak");
+					if (start1.before(end2) && start2.before(end1))
+						System.out.println("Kolizija kabineta " + kabinetiPon[i] + " Ponedeljak");
 				}
 			}
 		}
@@ -326,7 +379,7 @@ public class Dom51 {
 			for (int j = i + 1; j < raspored[0].length; j++) {
 				if (predavaciPon[i] == predavaciPon[j]) {
 					if (odSatPon[i] <= doSatPon[j] && odSatPon[j] <= doSatPon[i])
-						System.out.println("Presecanje predavaca " + predavaciPon[i] + " Ponedeljak");
+						System.out.println("Kolizija predavaca " + predavaciPon[i] + " Ponedeljak");
 				}
 			}
 		}
@@ -336,7 +389,7 @@ public class Dom51 {
 			for (int j = i + 1; j < raspored[1].length; j++) {
 				if (predavaciUto[i] == predavaciUto[j]) {
 					if (odSatUto[i] <= doSatUto[j] && odSatUto[j] <= doSatUto[i])
-						System.out.println("Presecanje predavaca " + predavaciUto[i] + " Utorak");
+						System.out.println("Kolizija predavaca " + predavaciUto[i] + " Utorak");
 				}
 			}
 		}
@@ -346,17 +399,27 @@ public class Dom51 {
 			for (int j = i + 1; j < raspored[2].length; j++) {
 				if (predavaciSre[i] == predavaciSre[j]) {
 					if (odSatSre[i] <= doSatSre[j] && odSatSre[j] <= doSatSre[i])
-						System.out.println("Presecanje predavaca " + predavaciSre[i] + " Sreda");
+						System.out.println("Kolizija predavaca " + predavaciSre[i] + " Sreda");
 				}
 			}
 		}
 
 		// Podudaranje vremenskih intervala i kabineta utorak
+		
 		for (int i = 0; i < raspored[1].length; i++) {
 			for (int j = i + 1; j < raspored[1].length; j++) {
+				DateFormat sdf = new SimpleDateFormat("hh:mm");
+				Date start3 = sdf.parse(vremeOdUto[i]);
+				Date end3 = sdf.parse(vremeDoUto[i]);
+				end3.setMinutes(end3.getMinutes() + pauzaMin);
+				Date start4 = sdf.parse(vremeOdUto[j]);
+				Date end4 = sdf.parse(vremeDoUto[j]);
+				end4.setMinutes(end4.getMinutes() + pauzaMin);
+				// System.out.println("zavrseno prvo " + end3 + " Zavrseno drugo " + end4);
+
 				if (kabinetiUto[i] == kabinetiUto[j]) {
-					if (odSatUto[i] <= doSatUto[j] && odSatUto[j] <= doSatUto[i])
-						System.out.println("Kolizija kabineta " + kabinetiUto[j] + " Utorak");
+					if (start3.before(end4) && start4.before(end3))
+					System.out.println("Presecanje kabineta " + kabinetiUto[i] + " Utorak");
 				}
 			}
 		}
