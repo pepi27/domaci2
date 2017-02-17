@@ -10,14 +10,17 @@ public class Dom51 {
 		raspored[2] = new String[6][8]; // sreda 6 predavanja
 
 		String[] kabinetiPon = new String[raspored[0].length];
+		String[] predavaciPon = new String[raspored[0].length];
 		int[] odSatPon = new int[raspored[0].length];
 		int[] doSatPon = new int[raspored[0].length];
 
 		String[] kabinetiUto = new String[raspored[1].length];
+		String[] predavaciUto = new String[raspored[1].length];
 		int[] odSatUto = new int[raspored[1].length];
 		int[] doSatUto = new int[raspored[1].length];
 
 		String[] kabinetiSre = new String[raspored[2].length];
+		String[] predavaciSre = new String[raspored[2].length];
 		int[] odSatSre = new int[raspored[2].length];
 		int[] doSatSre = new int[raspored[2].length];
 
@@ -247,6 +250,24 @@ public class Dom51 {
 			// System.out.println(odSatPon[i]);
 		}
 
+		// Predavaci ponedeljak
+		for (int i = 0; i < raspored[0].length; i++) {
+			predavaciPon[i] = raspored[0][i][1];
+			// System.out.println(predavaciPon[i]);
+		}
+
+		// Predavaci utorak
+		for (int i = 0; i < raspored[1].length; i++) {
+			predavaciUto[i] = raspored[1][i][1];
+			// System.out.println(predavaciUto[i]);
+		}
+
+		// Predavaci sreda
+		for (int i = 0; i < raspored[2].length; i++) {
+			predavaciSre[i] = raspored[2][i][1];
+			// System.out.println(predavaciSre[i]);
+		}
+
 		// Poceci predavanja utorak
 		for (int i = 0; i < raspored[1].length; i++) {
 
@@ -296,6 +317,36 @@ public class Dom51 {
 				if (kabinetiPon[i] == kabinetiPon[j]) {
 					if (odSatPon[i] <= doSatPon[j] && odSatPon[j] <= doSatPon[i])
 						System.out.println("Presecanje kabineta " + kabinetiPon[i] + " Ponedeljak");
+				}
+			}
+		}
+
+		// Podudaranje vremenskih intervala i predavaca ponedeljak
+		for (int i = 0; i < raspored[0].length; i++) {
+			for (int j = i + 1; j < raspored[0].length; j++) {
+				if (predavaciPon[i] == predavaciPon[j]) {
+					if (odSatPon[i] <= doSatPon[j] && odSatPon[j] <= doSatPon[i])
+						System.out.println("Presecanje predavaca " + predavaciPon[i] + " Ponedeljak");
+				}
+			}
+		}
+
+		// Podudaranje vremenskih intervala i predavaca utorak
+		for (int i = 0; i < raspored[1].length; i++) {
+			for (int j = i + 1; j < raspored[1].length; j++) {
+				if (predavaciUto[i] == predavaciUto[j]) {
+					if (odSatUto[i] <= doSatUto[j] && odSatUto[j] <= doSatUto[i])
+						System.out.println("Presecanje predavaca " + predavaciUto[i] + " Utorak");
+				}
+			}
+		}
+
+		// Podudaranje vremenskih intervala i predavaca sreda
+		for (int i = 0; i < raspored[2].length; i++) {
+			for (int j = i + 1; j < raspored[2].length; j++) {
+				if (predavaciSre[i] == predavaciSre[j]) {
+					if (odSatSre[i] <= doSatSre[j] && odSatSre[j] <= doSatSre[i])
+						System.out.println("Presecanje predavaca " + predavaciSre[i] + " Sreda");
 				}
 			}
 		}
